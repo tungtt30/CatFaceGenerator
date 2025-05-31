@@ -368,20 +368,20 @@ def main():
     set_seed(42)
     
     # Đường dẫn đến folder chứa ảnh chó
-    data_root = "path/to/your/dog/images"  # Thay đổi path này
+    data_root = "data/train/d"  # Thay đổi path này
     
     # Tạo trainer với hyperparameters tối ưu cho 20K ảnh
     trainer = GANTrainer(
         data_root=data_root,
         image_size=64,
-        batch_size=32,          # Batch size nhỏ hơn cho stability
+        batch_size=64,          # Batch size nhỏ hơn cho stability
         nz=100,                 # Noise vector size
         ngf=64,                 # Generator feature maps
         ndf=64,                 # Discriminator feature maps
         nc=3,                   # Number of channels (RGB)
         lr=0.0002,              # Learning rate
         beta1=0.5,              # Beta1 for Adam optimizer
-        num_epochs=200          # Số epochs (có thể adjust)
+        num_epochs=10          # Số epochs (có thể adjust)
     )
     
     # Bắt đầu training
