@@ -6,6 +6,7 @@ import torch
 import torch.optim as optim
 import torch.nn as nn
 from model import Generator, Discriminator
+from newModel import ImprovedGenerator, ImprovedDiscriminator
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -24,15 +25,15 @@ train_dataset = datasets.ImageFolder(root=train_path, transform=transform)
 test_dataset = datasets.ImageFolder(root=test_path, transform=transform)
 val_dataset = datasets.ImageFolder(root=val_path, transform=transform)
 
-train_loader = DataLoader(train_dataset, batch_size=64, shuffle=True)
-test_loader = DataLoader(test_dataset, batch_size=64, shuffle=False)
-val_loader = DataLoader(val_dataset, batch_size=64, shuffle=False)
+train_loader = DataLoader(train_dataset, batch_size=128, shuffle=True)
+test_loader = DataLoader(test_dataset, batch_size=128, shuffle=False)
+val_loader = DataLoader(val_dataset, batch_size=128, shuffle=False)
 
 
 
 nz = 100            #latent vector
-ngf = 128            # Feature maps G
-ndf = 128            # Feature maps D
+ngf = 256            # Feature maps G
+ndf = 256            # Feature maps D
 nc = 3              # Channel
 lr = 0.0002         
 beta1 = 0.5         
@@ -40,8 +41,11 @@ num_epochs = 50
 batch_size = 64     
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-generator = Generator(nz, ngf, nc).to(device)
-discriminator = Discriminator(nc, ndf).to(device)
+# generator = Generator(nz, ngf, nc).to(device)
+# discriminator = Discriminator(nc, ndf).to(device)
+
+generator = ImprovedGenerator(nz, ngf, nc).to(device)
+discriminator = ImprovedDiscriminator(nc, ndf).to(device)
 
 
 #Test output shape
@@ -82,8 +86,8 @@ def plot_images(images):
 
 for epoch in range(num_epochs):
     for i, data in enumerate(train_loader, 0):
-        generator.train()
-        discriminator.train()
+        # generator.train()
+        # discriminator.train()
 
         #train d
         real_images, _ = data
@@ -113,7 +117,7 @@ for epoch in range(num_epochs):
         lossG.backward()
         optimizerG.step()
 
-        if i % 10 == 0:
+        if i % 100 == 0:
             print(f"Epoch [{epoch+1}/{num_epochs}] Batch {i}/{len(train_loader)} "
                   f"Loss D: {lossD.item():.8f}, Loss G: {lossG.item():.8f}")
 

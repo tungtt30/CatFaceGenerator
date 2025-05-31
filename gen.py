@@ -5,7 +5,7 @@ import torch
 from model import Generator
 
 
-gen_model = Generator(100, 128, 3)
+gen_model = Generator(100, 256, 3)
 state = torch.load('generator.pth', weights_only=True)
 gen_model.load_state_dict(state)
 
