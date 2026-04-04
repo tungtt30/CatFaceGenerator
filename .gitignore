@@ -3,3 +3,10 @@
 /__pycache__
 *.pth
 *.png
+/archive
+/archive_128
+*.safetensors
+/.venv
+/checkpoint
+/generated_samples
+/diffusion_samples
